@@ -1,0 +1,64 @@
+.games{
+    width: 80%;
+    margin: 0 10%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+
+    h1{
+        margin: 25px;
+    }
+}
+
+@mixin game-table($header-Color, $data-Color){
+    thead th{
+        background-color: $header-Color;
+        width: 450px;
+        padding: 5px 15px;
+    }
+
+    tbody td{
+        background-color: $data-Color;
+        padding: 10px;
+    }
+}
+
+.game-table-to-play{
+    @include game-table(#3a6eff, #3a6eff44)
+}
+
+.game-table-playing{
+    @include game-table(#3aff65, #3aff6544)
+}
+
+.game-table-finished{
+    @include game-table(#ff3a3a, #ff3a3a44)
+}
+
+.game-nav{
+    display: flex;
+    justify-content: center;
+    
+    li{
+        list-style: none;
+    }
+
+    .section-select{
+        border: none;
+
+        padding: 15px 50px;
+
+        margin: 10px 0;
+
+        background-color: #da9191;
+        cursor: pointer;
+
+        &:hover{
+            background-color: #7a2828;
+            color: white;
+        }
+    }
+}
+

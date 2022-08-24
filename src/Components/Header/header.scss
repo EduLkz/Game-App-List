@@ -1,0 +1,75 @@
+$hover-transition: 250ms;
+
+.header{
+
+    nav{
+        background-color: #777;
+        height: 50px;
+
+        ul{
+            list-style: none;
+            display: flex;
+            height: 100%;
+
+            li a{
+                line-height: 50px;
+                margin: 0;
+                padding: 15px 15px;
+                border: none;
+                background-color: #777;
+                color: black;
+        
+                text-decoration: none;
+                cursor: pointer;
+                position: relative;
+
+                transition: background-color $hover-transition ease-in-out;
+
+                &:hover{
+                    background-color: #fff8;
+                }
+                
+            }
+        }
+    }
+    
+
+
+}
+
+.add-game{
+    margin: 50px 0;
+    
+    input{
+        border: 1px solid #777;
+        border-radius: 5px;
+
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+        border-right: none;
+
+        height: 50px;
+        width: 350px;
+        line-height: 50px;
+        padding-left: 10px;
+    }
+    
+    .submit{
+        border: 1px solid #777;
+        border-radius: 5px;
+
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        border-left: none;
+
+        height: 54px;
+        width: 50px;
+        line-height: 50px;
+    
+        background-color: lightgray;
+    
+        &:hover{
+            background-color: gray;
+        }
+    }
+}
