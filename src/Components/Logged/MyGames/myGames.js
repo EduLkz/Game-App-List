@@ -23,11 +23,11 @@ const MyGames = () => {
         }
 
         const timeElapsed = Date.now();
-        const today = new Date(timeElapsed);
+        const today = new Date(timeElapsed).toLocaleString();
 
         const new_game = {
             name: input,
-            date: today.toUTCString('pt-BR'),
+            date: today,
             type: listIndex
         }   
 
