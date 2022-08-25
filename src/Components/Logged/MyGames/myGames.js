@@ -26,10 +26,10 @@ const MyGames = () => {
         const today = new Date(timeElapsed).toLocaleString();
 
         const new_game = {
-            name: input,
-            date: today,
-            type: listIndex
-        }   
+            game_name: input,
+            date_added: today,
+            game_type: listIndex
+        }
 
         if(gameList){
             setGameList(oldArray => [...oldArray, new_game]);
@@ -101,10 +101,10 @@ const MyGames = () => {
                     {
                         (gameList.map((g) => {
                             return (
-                                g.type === listIndex && (
-                                    <tr key={g.name}>
-                                        <td>{g.name}</td>
-                                        <td>{g.date}</td>
+                                g.game_type === listIndex && (
+                                    <tr key={g.game_name}>
+                                        <td>{g.game_name}</td>
+                                        <td>{g.date_added}</td>
                                         <td>
                                             <button onClick={() => RemoveGame(g)}> - </button>
                                         </td>

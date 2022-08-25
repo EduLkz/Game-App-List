@@ -5,8 +5,13 @@ import { GamesContext } from '../../../GamesContext';
 
 const Account = ( props ) => {
 
-  const { setLoggedAccount } = useContext(GamesContext);
+  const { setLoggedAccount, setGameList } = useContext(GamesContext);
   const { fullname, login, email } = props.account;
+
+  function LogOut(){
+    setLoggedAccount(null);
+    setGameList([]);
+  }
 
   return(
     <div className="account">
@@ -16,7 +21,7 @@ const Account = ( props ) => {
       <p>Email: {email}</p>
 
       <button>Change Password</button>
-      <button onClick={() => { setLoggedAccount(null) }}>Logout</button>
+      <button onClick={() => { LogOut() }}>Logout</button>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { accounts } from '../../../GamesContext';
 import { useHistory  } from 'react-router-dom';
+import { CreateAccount } from '../../../Services/api';
 import './signUp.scss';
 
 const SignUp = () => {
@@ -23,7 +23,6 @@ const SignUp = () => {
 
 
     function SubmitForm(e){
-        console.log(accounts)
         e.preventDefault();
 
         if(nameInput.length < 3) { 
@@ -53,7 +52,7 @@ const SignUp = () => {
         }
         if(passwordInput !== confirmInput) { 
             setErrorText('passwords doesn\'t match'); 
-            return;     
+            return;
         }
 
         setErrorText('');
@@ -65,15 +64,17 @@ const SignUp = () => {
         confirmRef.current.value = '';
 
         const newUser = {
-            id: accounts.length,
-            login: loginInput,
-            password: passwordInput,
+            fullname: nameInput,
             email: emailInput,
-            fullname: nameInput
+            login: loginInput,
+            password: passwordInput
         }
 
-        accounts.push(newUser);
-        history.push('/account')
+        const new_account = CreateAccount(newUser);
+
+        if(new_account === true){
+            history.push('/account')
+        }
     }
     
 
