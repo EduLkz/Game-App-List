@@ -1,0 +1,26 @@
+.account{
+    margin: 35px 20%;
+    padding: 45px 15px;
+    
+    min-width: 45%;
+    min-height: 35%;
+
+    background-color: #0003;
+
+    p{
+        margin: 5px;
+    }
+
+    button{
+        margin: 15px 5px;
+        padding: 5px 15px;
+
+        border: none;
+        cursor: pointer;
+
+        &:hover,
+        &:focus{
+            background-color: gray;
+        }
+    }
+}

@@ -1,11 +1,14 @@
 import React, { useContext, useState, useRef } from 'react';
 import { GamesContext } from '../../../GamesContext';
+import { CreateGame, GetGames } from '../../../Services/api';
+import Game from '../../Game/game';
 import './myGames.scss'
 
 const MyGames = () => {
     const { 
         gameList, setGameList ,
-        listIndex, setListIndex
+        listIndex, setListIndex,
+        loggedAccount
         } = useContext(GamesContext);
         
     const [listSection, setListSection] = useState('To Play');
@@ -14,8 +17,13 @@ const MyGames = () => {
     const [input, setInput] = useState('');
     const inputRef = useRef(null)
 
-    function AddGame(e){
+    async function AddGame(e){
         e.preventDefault();
+
+        if(!loggedAccount){
+            alert("You must be logged to add a game");
+            return;
+        }
         
         if(input.length <= 0){
             alert("Game cannot be empty");
@@ -26,30 +34,27 @@ const MyGames = () => {
         const today = new Date(timeElapsed).toLocaleString();
 
         const new_game = {
+            user_uuid: loggedAccount.uuid,
             game_name: input,
             date_added: today,
             game_type: listIndex
         }
 
-        if(gameList){
-            setGameList(oldArray => [...oldArray, new_game]);
-        }else{
-            setGameList([new_game]);
-        }
+        const game_added = await CreateGame(new_game);
 
+        
         setInput('');
         inputRef.current.value = '';
-    }
 
-    function RemoveGame(game){
-        const list = gameList;
-        const index = list.indexOf(game);
-        
-        if(index > -1){
-            list.splice(index, 1);
+        if(game_added === false){
+            alert('Couldn\'t add game');
         }
         
-        setGameList([...list]);
+        const userGames = await GetGames(loggedAccount.uuid);
+            
+        if(userGames){
+            setGameList(userGames);
+        }
     }
 
     function ChangeIndex(index){
@@ -76,6 +81,7 @@ const MyGames = () => {
         setTableClas(table);
     }
 
+
     return (
         <div className="games">
             <form onSubmit={AddGame} className='add-game'>
@@ -89,32 +95,22 @@ const MyGames = () => {
                 <li><button className="section-select" onClick={() => ChangeIndex(2)}>Finish</button></li>
             </nav>
             <h1>{listSection}</h1>
-            <table className={`game-table-${tableClass}`}>
-                <thead>
-                    <tr>
-                        <th>Game Name</th>
-                        <th>Date Added</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        (gameList.map((g) => {
-                            return (
-                                g.game_type === listIndex && (
-                                    <tr key={g.game_name}>
-                                        <td>{g.game_name}</td>
-                                        <td>{g.date_added}</td>
-                                        <td>
-                                            <button onClick={() => RemoveGame(g)}> - </button>
-                                        </td>
-                                    </tr>
-                                )
-                            )
-                        }))
-                    }
-                </tbody>
-            </table>
+
+            <div className={`game-list-${tableClass}`}>
+                
+            <GamesContext.Provider value={{ gameList, setGameList, loggedAccount }}>
+            {
+                (gameList.map((g) => {
+                    return (
+                        g.game_type === listIndex && (
+                            <Game key={g.game_name} game={g}/>
+                        )
+                    )
+                }))
+            }
+            </GamesContext.Provider>
+
+            </div>
         </div>
     );
 }

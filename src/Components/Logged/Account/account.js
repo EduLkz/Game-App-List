@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { GamesContext } from '../../../GamesContext';
-
+import './account.scss'
 // import { Container } from './styles';
 
 const Account = ( props ) => {
@@ -10,6 +10,7 @@ const Account = ( props ) => {
 
   function LogOut(){
     setLoggedAccount(null);
+    localStorage.setItem('currentUser', null);
     setGameList([]);
   }
 
@@ -17,7 +18,7 @@ const Account = ( props ) => {
     <div className="account">
       {console.log(fullname)}
       <p>Nome: {fullname}</p>
-      <p>Username:{login}</p>
+      <p>Username: {login}</p>
       <p>Email: {email}</p>
 
       <button>Change Password</button>

@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { GamesContext } from '../../GamesContext';
+import { GetGames } from '../../Services/api';
 import Header from '../Header/header';
 import Account from '../Logged/Account/account';
 import MyGames from '../Logged/MyGames/myGames';
@@ -19,7 +20,27 @@ function App() {
     listIndex, setListIndex,
     loggedAccount, setLoggedAccount
   }
-  
+
+  useEffect(() => {
+
+    async function UpdateGames(uuid){
+      const userGames = await GetGames(uuid);
+
+        if(userGames){
+            setGameList(userGames);
+        }
+    }
+    const currentUser = localStorage.getItem('currentUser');
+    
+
+    if(currentUser){
+      const foundUser = JSON.parse(currentUser);
+      setLoggedAccount(foundUser);
+      UpdateGames(foundUser.uuid);
+    }
+
+  }, [])
+
   return (
     <div className="App">
       <Router>
@@ -27,9 +48,6 @@ function App() {
       <GamesContext.Provider value={contextObject}>
         <Switch>
           <Route exact path='/'> <MyGames/> </Route>
-          <Route exact path='/my-games'> 
-            <MyGames/> 
-          </Route>
           <Route exact path='/account'> 
             { loggedAccount ? <Account account = {loggedAccount}/> : <LoginPage/> }
           </Route>

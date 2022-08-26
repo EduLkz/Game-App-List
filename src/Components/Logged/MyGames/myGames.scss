@@ -12,29 +12,29 @@
     }
 }
 
-@mixin game-table($header-Color, $data-Color){
-    thead th{
-        background-color: $header-Color;
-        width: 450px;
-        padding: 5px 15px;
-    }
+@mixin game-list($data-Color){
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    
+    padding: 15px;
+    margin: 15px;
 
-    tbody td{
-        background-color: $data-Color;
-        padding: 10px;
-    }
+    min-height: 250px;
+    
+    background-color: $data-Color;
 }
 
-.game-table-to-play{
-    @include game-table(#3a6eff, #3a6eff44)
+.game-list-to-play{
+    @include game-list(#3a6eff44)
 }
 
-.game-table-playing{
-    @include game-table(#3aff65, #3aff6544)
+.game-list-playing{
+    @include game-list(#3aff6544)
 }
 
-.game-table-finished{
-    @include game-table(#ff3a3a, #ff3a3a44)
+.game-list-finished{
+    @include game-list(#ff3a3a44)
 }
 
 .game-nav{

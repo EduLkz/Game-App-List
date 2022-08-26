@@ -1,0 +1,40 @@
+.game-info{
+    display: flex;
+    justify-content: space-between;
+
+    padding: 10px 25px;
+    margin: 5px;
+
+    background: linear-gradient(170deg, #9e66cc 50%, #7bdd7b 85%);
+    
+    .info{
+        font-weight: bold;
+    }
+
+    .game-name{
+        text-align: left;
+    }
+
+    .action-buttons button{
+        width: 35px;
+        height: 35px;
+
+        margin: 5px;
+
+        border: none;
+
+        cursor: pointer;
+
+        background-color: #b07cd3;
+        transition: background-color 150ms;
+
+        &:hover,
+        &:focus{
+            background-color: #7bdd7b;
+        }
+
+        &:active{
+            background-color: #9e66cc;
+        }
+    }
+}
