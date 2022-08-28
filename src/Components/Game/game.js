@@ -6,11 +6,11 @@ import './game.scss'
 const Game = ( props ) => {
 
     const game = props.game;
-    const { setGameList, loggedAccount } = useContext(GamesContext);
+    const { setGameList, loggedAccount, setLoading } = useContext(GamesContext);
         
 
     function updateType(add){
-
+        setLoading(true);
         let newTypeIndex = game.game_type;
         if(add){
             if(newTypeIndex < 2){
@@ -26,7 +26,8 @@ const Game = ( props ) => {
     }
 
     async function RemoveGame(){
-        const deleted = DeleteGame(game)
+        setLoading(true);
+        const deleted = await DeleteGame(game, loggedAccount);
         
         if(deleted === false){
             alert('Cannot remove game');
@@ -51,7 +52,8 @@ const Game = ( props ) => {
     }
 
     async function UpdateGameList(){
-        const userGames = await GetGames(loggedAccount.uuid);
+        const userGames = await GetGames(loggedAccount);
+        setLoading(false);
         
         if(userGames){
             setGameList(userGames);

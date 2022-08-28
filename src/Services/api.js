@@ -1,16 +1,24 @@
+import {encode as base64_encode} from 'base-64';
+
 const options = {
     mode: "cors",
     method: "POST",
     headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'authorization': ''
     },
     body: []
 }
 
 async function Login(login, password){
-    const url = process.env.REACT_APP_API + '/users/login';
+    const url = process.env.REACT_APP_API + '/token';
 
+    const token = base64_encode(login + ':' + password);
+    const basicAuth = 'Basic ' + token;
+
+    options.headers.authorization = basicAuth;
+    
     const body = JSON.stringify({
         login: login,
         password: password,
@@ -19,7 +27,6 @@ async function Login(login, password){
     options.body = body;
 
     try {
-        
         const response = await fetch(url, options);
         
         if(response.status === 200){
@@ -29,7 +36,8 @@ async function Login(login, password){
                 uuid: json.user.uuid,
                 login: json.user.login,
                 fullname: json.user.fullname,
-                email: json.user.email   
+                email: json.user.email,
+                jwt: json.token
             }
             
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
@@ -42,8 +50,11 @@ async function Login(login, password){
     }
 }
 
-async function GetGames(uuid){
-    const url = process.env.REACT_APP_API + '/games/' + uuid;
+
+async function GetGames(user){
+    const url = process.env.REACT_APP_API + '/games/' + user.uuid;
+
+    options.headers.authorization = 'Bearer ' + user.jwt;
 
     try {
         const response = await fetch(url);
@@ -57,7 +68,7 @@ async function GetGames(uuid){
 }
 
 async function CreateAccount(user){
-    const url = process.env.REACT_APP_API + '/users/login';
+    const url = process.env.REACT_APP_API + '/users';
 
     const body = JSON.stringify({
         fullname: user.fullname,
@@ -82,11 +93,12 @@ async function CreateAccount(user){
     }
 }
 
-async function ChagePassword(uuid, password, new_password){
+async function ChagePassword(user, password, new_password){
     const url = process.env.REACT_APP_API + '/users/change-password';
+    options.headers.authorization = 'Bearer ' + user.jwt;
 
     const body = JSON.stringify({
-        uuid: uuid,
+        uuid: user.uuid,
         password: password,
         new_password: new_password,
     })
@@ -107,9 +119,9 @@ async function ChagePassword(uuid, password, new_password){
     }
 }
 
-async function CreateGame(new_game){
-
+async function CreateGame(new_game, user){
     const url = process.env.REACT_APP_API + '/games';
+    options.headers.authorization = 'Bearer ' + user.jwt;
 
     const body = JSON.stringify({
         new_game: new_game,
@@ -132,9 +144,10 @@ async function CreateGame(new_game){
 
 }
 
-async function UpdateGame(game){
-
+async function UpdateGame(game, user){
     const url = process.env.REACT_APP_API + '/games/update';
+    options.headers.authorization = 'Bearer ' + user.jwt;
+
 
     const body = JSON.stringify({
         game: game,
@@ -157,8 +170,10 @@ async function UpdateGame(game){
 
 }
 
-async function DeleteGame(game,){
+async function DeleteGame(game, user){
     const url = process.env.REACT_APP_API + '/games';
+    options.headers.authorization = 'Bearer ' + user.jwt;
+
 
     const body = JSON.stringify({
         game: game,

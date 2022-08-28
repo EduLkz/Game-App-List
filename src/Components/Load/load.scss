@@ -1,0 +1,35 @@
+.loading{
+    width: 100%;
+    height: 100%; 
+    background-color:#fff8;
+    position:absolute;
+    z-index: 2500;
+
+    img{
+        width: 50px;
+        position: absolute;
+        margin: auto;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        animation: rotate-load-img 3s linear;
+        animation-iteration-count: infinite;
+    }
+}
+
+
+@keyframes rotate-load-img{
+    0%{
+        transform: rotate(0deg);
+    }
+
+    50%{
+        transform: rotate(180deg);
+    }
+
+    100%{
+        transform: rotate(360deg);
+    }
+}

@@ -10,7 +10,7 @@ const LoginPage = () => {
   const [passwordInput, setPasswordInput] = useState('');
   const [logSuccess, setLogSuccess] = useState(null);
 
-  const { setLoggedAccount, setGameList } = useContext(GamesContext);
+  const { setLoggedAccount, setGameList, setLoading } = useContext(GamesContext);
 
   const loginRef = useRef();
   const passwordRef = useRef();
@@ -18,13 +18,15 @@ const LoginPage = () => {
   async function TryLogin(e){
     e.preventDefault();
     
+    setLoading(true);
     const userLogged = await Login(loginInput, passwordInput);
+    setLoading(false);
 
     setLogSuccess(userLogged !== null);
 
     if(logSuccess !== false){
       setLoggedAccount(userLogged);
-      const userGames = await GetGames(userLogged.uuid);
+      const userGames = await GetGames(userLogged);
 
       if(userGames){
         setGameList(userGames);

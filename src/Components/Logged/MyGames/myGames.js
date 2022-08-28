@@ -8,7 +8,7 @@ const MyGames = () => {
     const { 
         gameList, setGameList ,
         listIndex, setListIndex,
-        loggedAccount
+        loggedAccount, setLoading
         } = useContext(GamesContext);
         
     const [listSection, setListSection] = useState('To Play');
@@ -40,7 +40,7 @@ const MyGames = () => {
             game_type: listIndex
         }
 
-        const game_added = await CreateGame(new_game);
+        const game_added = await CreateGame(new_game, loggedAccount);
 
         
         setInput('');
@@ -50,7 +50,7 @@ const MyGames = () => {
             alert('Couldn\'t add game');
         }
         
-        const userGames = await GetGames(loggedAccount.uuid);
+        const userGames = await GetGames(loggedAccount);
             
         if(userGames){
             setGameList(userGames);
@@ -98,7 +98,7 @@ const MyGames = () => {
 
             <div className={`game-list-${tableClass}`}>
                 
-            <GamesContext.Provider value={{ gameList, setGameList, loggedAccount }}>
+            <GamesContext.Provider value={{ gameList, setGameList, loggedAccount, setLoading }}>
             {
                 (gameList.map((g) => {
                     return (

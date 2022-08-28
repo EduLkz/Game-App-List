@@ -16,7 +16,6 @@ const Account = ( props ) => {
 
   return(
     <div className="account">
-      {console.log(fullname)}
       <p>Nome: {fullname}</p>
       <p>Username: {login}</p>
       <p>Email: {email}</p>
